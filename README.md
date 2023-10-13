@@ -1,4 +1,6 @@
-# Making instant messaging service like Slack
+# Making instant messaging service
+
+https://slack.com/
 
 ## Full-Stack Project
 
