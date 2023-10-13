@@ -12,7 +12,7 @@ import { User } from "../common/decorators/user.decorator";
 import { JoinRequestDto } from "./dto/join.request.dto";
 import { UsersService } from "./users.service";
 import { ApiOperation } from "@nestjs/swagger";
-import { UndefinedToNullInterceptor } from "src/interceptors/undefinedToNull.interceptors";
+import { UndefinedToNullInterceptor } from "src/common/interceptors/undefinedToNull.interceptors";
 
 @UseInterceptors(UndefinedToNullInterceptor)
 @Controller("users") //address
