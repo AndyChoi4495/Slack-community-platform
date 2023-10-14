@@ -4,4 +4,4 @@ https://slack.com/
 
 ## Full-Stack Project
 
-Languages: TypeScript, JavaScript, NestJs, React
+Languages: TypeScript, JavaScript, NestJs, React, TypeORM
