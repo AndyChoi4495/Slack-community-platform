@@ -3,11 +3,9 @@ import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
-import { WorkspacesService } from "./nest/workspaces/workspaces.service";
 import { WorkspacesModule } from "./workspaces/workspaces.module";
 import { ChannelsModule } from "./channels/channels.module";
 import { DmsModule } from "./dms/dms.module";
-import { UsersController } from "./users/users.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ChannelChats } from "./entities/ChannelChats";
 import { ChannelMembers } from "./entities/ChannelMembers";
@@ -17,6 +15,7 @@ import { Mentions } from "./entities/Mentions";
 import { Users } from "./entities/Users";
 import { WorkspaceMembers } from "./entities/WorkspaceMembers";
 import { Workspaces } from "./entities/Workspaces";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -46,6 +45,7 @@ import { Workspaces } from "./entities/Workspaces";
       logging: true,
       keepConnectionAlive: true,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
