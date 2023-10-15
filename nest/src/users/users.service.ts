@@ -11,7 +11,7 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
   getUser() {}
-  async postUsers(email: string, nickname: string, password: string) {
+  async join(email: string, nickname: string, password: string) {
     if (!email) {
       return;
     }

@@ -20,7 +20,7 @@ import { Workspaces } from "./entities/Workspaces";
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     WorkspacesModule,
     ChannelsModule,
@@ -47,7 +47,7 @@ import { Workspaces } from "./entities/Workspaces";
       keepConnectionAlive: true,
     }),
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, WorkspacesService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
