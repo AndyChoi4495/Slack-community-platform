@@ -1,46 +1,67 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Req,
-  Res,
   Body,
-  UseInterceptors,
+  Controller,
+  NotFoundException,
+  Post,
+  UseGuards,
+  Get,
+  Response,
+  ForbiddenException,
 } from "@nestjs/common";
+import { ApiCookieAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { LocalAuthGuard } from "../auth/local-auth.guard";
+import { NotLoggedInGuard } from "../auth/not-logged-in.guard";
+import { LoggedInGuard } from "../auth/logged-in.guard";
 import { User } from "../common/decorators/user.decorator";
-//import { Token } from "../common/decorators/token.decorator";
+import { Users } from "../entities/Users";
 import { JoinRequestDto } from "./dto/join.request.dto";
 import { UsersService } from "./users.service";
-import { ApiOperation } from "@nestjs/swagger";
-import { UndefinedToNullInterceptor } from "src/common/interceptors/undefinedToNull.interceptors";
 
-@UseInterceptors(UndefinedToNullInterceptor)
-@Controller("users") //address
+@ApiTags("USERS")
+@Controller("api/users")
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @ApiOperation({ summary: "My information" })
+  @ApiCookieAuth("connect.sid")
+  @ApiOperation({ summary: "my infomation" })
   @Get()
-  getUsers(@User() user) {
-    return user;
+  async getProfile(@User() user: Users) {
+    return user || false;
   }
 
-  @ApiOperation({ summary: "Register" })
-  @Post()
-  join(@Body() body: JoinRequestDto) {
-    this.usersService.postUsers(body.email, body.nickname, body.password);
-  }
-  @ApiOperation({ summary: "Login" })
+  @ApiOperation({ summary: "login" })
+  @UseGuards(LocalAuthGuard)
   @Post("login")
-  logIn(@User() user) {
+  async login(@User() user: Users) {
     return user;
   }
 
-  @ApiOperation({ summary: "Logout" })
+  @ApiOperation({ summary: "register" })
+  @UseGuards(NotLoggedInGuard)
+  @Post()
+  async join(@Body() data: JoinRequestDto) {
+    const user = this.usersService.findByEmail(data.email);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    const result = await this.usersService.join(
+      data.email,
+      data.nickname,
+      data.password,
+    );
+    if (result) {
+      return "ok";
+    } else {
+      throw new ForbiddenException();
+    }
+  }
+
+  @ApiCookieAuth("connect.sid")
+  @ApiOperation({ summary: "logout" })
+  @UseGuards(LoggedInGuard)
   @Post("logout")
-  logOut(@Req() req, @Res() res) {
-    req.logOut();
+  async logout(@Response() res) {
     res.clearCookie("connect.sid", { httpOnly: true });
-    res.send("ok");
+    return res.send("ok");
   }
 }
