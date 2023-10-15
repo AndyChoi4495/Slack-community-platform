@@ -27,10 +27,9 @@ export class UsersController {
 
   @ApiOperation({ summary: "Register" })
   @Post()
-  postUsers(@Body() body: JoinRequestDto) {
+  join(@Body() body: JoinRequestDto) {
     this.usersService.postUsers(body.email, body.nickname, body.password);
   }
-
   @ApiOperation({ summary: "Login" })
   @Post("login")
   logIn(@User() user) {

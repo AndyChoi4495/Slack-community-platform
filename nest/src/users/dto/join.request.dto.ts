@@ -1,22 +1,27 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
 export class JoinRequestDto {
+  @IsEmail()
   @ApiProperty({
     example: "yunseok@gmail.com",
-    description: "Email",
-    required: true,
+    description: "email",
   })
   public email: string;
+
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty({
     example: "user1",
-    description: "Nickname",
-    required: true,
+    description: "nickname",
   })
   public nickname: string;
+
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty({
-    example: "1234",
-    description: "Password",
-    required: true,
+    example: "YunseokChoi",
+    description: "password",
   })
   public password: string;
 }

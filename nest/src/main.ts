@@ -10,8 +10,8 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
 
   const config = new DocumentBuilder()
-    .setTitle("Sleact API")
-    .setDescription("Sleact API description")
+    .setTitle("Slack API")
+    .setDescription("Slack API description")
     .setVersion("1.0")
     .addCookieAuth("connect.sid")
     .build();
