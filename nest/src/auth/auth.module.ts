@@ -9,7 +9,7 @@ import { LocalStrategy } from "./local.strategy";
 
 @Module({
   imports: [
-    PassportModule.register({ session: true }),
+    PassportModule.register({ session: true }), // if decide to use token make session to false
     TypeOrmModule.forFeature([Users]),
   ],
   providers: [AuthService, LocalStrategy, LocalSerializer],
